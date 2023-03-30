@@ -1,44 +1,38 @@
-
-import openpyxl
+import pandas as pd
 import json
 
-# odpremo excel file
-workbook = openpyxl.load_workbook('proba.xlsx')
-worksheet = workbook.active
 
-stVrstic = worksheet.max_row
-stStolp = worksheet.max_column
+df = pd.read_excel('proba.xlsx')
+
 
 results = {}
 povprecjeResults = {}
 
-# Gremo cez vse vrstice in stolpce in zapisujemo vrednosti v results
-for i in range(2, stVrstic + 1):
-    trenVrstica = worksheet.cell(row=i, column=1).value
+
+for index, row in df.iterrows():
+    trenVrstica = row[0]
     results[trenVrstica] = {}
-    for j in range(2, stStolp + 1):
-        trenStolp = worksheet.cell(row=1, column=j).value
-        trenVrednostCelice = worksheet.cell(row=i, column=j).value
+
+ 
+    for j in range(1, len(row)):
+        trenStolp = df.columns[j]
+        trenVrednostCelice = row[j]
         results[trenVrstica][trenStolp] = trenVrednostCelice
 
 
-
-# vpisemo vse iz results v json file
 with open('results.json', 'w') as f:
     json.dump(results, f, indent=4)
 
 
-# npr da izracunamo povprecje vsake vrstice in vpisemo v povprecje.json
-for i in range(2, stVrstic + 1):
+for index, row in df.iterrows():
     trenVrsticaList = []
-    for j in range(2, stStolp + 1):
-        trenVrednostCelice = worksheet.cell(row=i, column=j).value
-        if trenVrednostCelice:
+    for j in range(1, len(row)):
+        trenVrednostCelice = row[j]
+        if pd.notna(trenVrednostCelice):
             trenVrsticaList.append(trenVrednostCelice)
     if trenVrsticaList:
         avg = sum(trenVrsticaList) / len(trenVrsticaList)
-        povprecjeResults[f"vrstica:{i-1}"] = avg
+        povprecjeResults[f"vrstica:{index}"] = avg
 
- 
 with open('povprecje.json', 'w') as f:
     json.dump(povprecjeResults, f, indent=4)
