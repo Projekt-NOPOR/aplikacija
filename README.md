@@ -2,15 +2,23 @@
 
 
 ## POMEMBNO
-Svetujem vam, da si za projekt ustvarite nov virtual environment.
+Priporočljivo je, da si za projekt ustvarite novo navidezno okolje (virtual environment) v lokalnem repozitoriju.
 
-Vse dependencyje dodajajte v datoteko **requirements.txt**.
+>pip install --user pipenv
+
+>pipenv shell
+
+Če dobite naslednji error:
+pipenv : The term 'pipenv' is not recognized as the name of a cmdlet, function, script file, or operable program.
+zaženite: 
+>python -m pipenv shell
+
+Za namestitev odvisnosti (dependency) iz requirements.txt poženite ukaz:
+>pip install -r requirements.txt
+
+Med razvojem nove odvisnosti (dependency) dodajajte v datoteko **requirements.txt**.
 To lahko storite na roke v smislu:
 >\<dependency-name>==\<verzija>
-
-
-Za namestitev dependencyjev iz requirements.txt poženite ukaz
->pip install -r requirements.txt
 
 ## Opis
 
