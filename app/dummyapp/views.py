@@ -48,7 +48,11 @@ def get_data(response):
     else:
         return HttpResponse("File not uploaded")
 
-
+'''
+sprejema datoteko s podatki, s katerimi moramo narediti napoved
+vrača napoved v json obliki
+ZAENKRAT ŠE NE DELA
+'''
 @api_view(['POST'])
 def make_prediction(request):
     uploaded_file = request.FILES["file"]
@@ -65,15 +69,23 @@ def make_prediction(request):
 
     return Response(json_predicted)
 
-
+'''
+vrača dummy drevo v json obliki za potrebe frontenda
+moral bi biti isti kot na sliki v dummy_tree direktoriju
+atribut "n_features_" je seveda napačen
+'''
 @api_view(['GET'])
 def get_tree(request):
-    simple_object = {}
-
-    simple_object["name"] = "nekaj"
-    simple_object["test"] = 155
-    simple_object["list"] = [1, 2, 3, 4, 5]
-
-    json_simple = json.dumps(simple_object)
-
-    return Response(json_simple) # vrne JSON drevo
+    json_tree = {
+        "meta": "decision-tree-regression", 
+        "feature_importances_": [0.07901668129938524, 0.0, 0.8150006271165184, 0.10598269158409623], 
+        "max_features_": 4, 
+        "n_features_": 999, 
+        "n_outputs_": 1, 
+        "tree_": {
+            "max_depth": 2, 
+            "node_count": 7, 
+            "nodes": [[1, 4, 2, 12.5, 18.21, 10, 10.0], [2, 3, 3, 7.5, 4.1224489795918355, 7, 7.0], [-1, -1, -2, -2.0, 0.666666666666667, 3, 3.0], [-1, -1, -2, -2.0, 2.1875, 4, 4.0], [5, 6, 0, 4.5, 4.666666666666657, 3, 3.0], [-1, -1, -2, -2.0, 0.25, 2, 2.0], [-1, -1, -2, -2.0, 0.0, 1, 1.0]], 
+            "values": [[[6.3]], [[3.857142857142857]], [[2.0]], [[5.25]], [[12.0]], [[10.5]], [[15.0]]], 
+            "nodes_dtype": ["<i8", "<i8", "<i8", "<f8", "<f8", "<i8", "<f8"]}}
+    return Response(json_tree) # vrne JSON drevo
