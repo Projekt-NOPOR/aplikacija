@@ -85,7 +85,7 @@ def get_tree(request):
         "meta": "decision-tree-regression", 
         "feature_importances_": [0.07901668129938524, 0.0, 0.8150006271165184, 0.10598269158409623], 
         "max_features_": 4, 
-        "n_features_": 999, 
+        "n_features_": 4, 
         "n_outputs_": 1, 
         "tree_": {
             "max_depth": 2, 
