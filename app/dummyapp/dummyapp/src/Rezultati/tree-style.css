@@ -1,0 +1,32 @@
+.node__root > circle {
+    fill: #27f0ff;
+    r: 40;
+    stroke: #7ef6ff;
+    stroke-width: 5;
+  }
+  
+  .node__branch > circle {
+    fill: #1fbac5;
+    r: 30;
+    stroke: #47b7bf;
+    stroke-width: 5;
+  }
+  
+  .node__leaf > circle {
+    fill: #19959e;
+    r: 25;
+    stroke: #489297;
+    stroke-width: 5;
+  }
+
+
+  .tooltip {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  

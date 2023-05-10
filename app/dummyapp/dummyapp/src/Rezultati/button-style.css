@@ -1,0 +1,38 @@
+/* Button Styles */
+.button {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 2px solid #57dfe8;
+    cursor: pointer;
+    background-color: #77f2fa;
+    color: #ffffff;
+  }
+  
+  .button:hover {
+    background-color: #008a83;
+  }
+  
+  .button:active {
+    background-color: #00fffb;
+  }
+  
+  .button.secondary {
+    background-color: #cccccc;
+    color: #ffffff;
+  }
+  
+  .button.secondary:hover {
+    background-color: #999999;
+  }
+  
+  .button.secondary:active {
+    background-color: #777777;
+    
+  }
+  

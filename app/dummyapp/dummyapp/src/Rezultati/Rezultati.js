@@ -3,10 +3,11 @@ import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import Loader from "../Loader/Loader";
-import "./Rezultati.css";
+import "./button-style.css";
 
 
 import DecisionTree from './DecisionTree';
+
 function Rezultati() {
 	const [loading, setLoading] = useState(true);
 	const [treeData, setTreeData] = useState(null);
@@ -32,12 +33,19 @@ function Rezultati() {
 		}
 	};
 
+	const renderOtherComponent = () => {
+		// Render the OtherComponent in another file
+		//TO DO prikaz alternative
+		const otherDiv = document.getElementById('alternative');
+		renderOtherComponent();
+	  };
+
 	return loading ? (
 		<Loader />
 	) : (
 		<>
-			<div className="App">
-				<header className="App-header">
+			<div className="App" >
+				<header className="App-header" >
 					<h1>Stran Rezultati</h1>
 					<Link to="/">
 						<Button variant="primary">Back</Button>{" "}
@@ -47,7 +55,8 @@ function Rezultati() {
 				<div style={{ height: '100%', 
 					display: 'flex', 
 					justifyContent: 'center', 
-					alignItems: 'center', }}>
+					alignItems: 'center', 
+					}}>
 					<div style={{ flexBasis: '50%'}}>
 						<div>
 						<h1> Pie Chart</h1>
@@ -56,6 +65,7 @@ function Rezultati() {
 						
 					</div>
 					<div style={{ flexBasis: '50%' ,
+						backgroundColor: '#dfe8e6',
 						justifyContent: 'center', 
 						alignItems: 'center',}}>
 						{treeData && (
@@ -63,7 +73,7 @@ function Rezultati() {
 								<h1>Tree</h1>
 								
 								<div>
-									{ <DecisionTree treeData={treeData} />}
+									{ <DecisionTree treeData={treeData} renderOtherComponent={renderOtherComponent} />}
 								</div>
 								{/*<pre>{JSON.stringify(treeData, null, 2)}</pre>*/}
 							</div>
@@ -77,8 +87,12 @@ function Rezultati() {
 					<div style={{ flexBasis: '50%' }}>
 						<div>razlaga</div>
 					</div>
-					<div style={{ flexBasis: '50%' }}>
-						<div>alternative</div>
+					<div style={{ flexBasis: '50%',
+						backgroundColor: '#d0eeef'
+						}}>
+						<div id="alternative">
+							<h1>alternative</h1>
+						</div>
 					</div>
 				</div>
 

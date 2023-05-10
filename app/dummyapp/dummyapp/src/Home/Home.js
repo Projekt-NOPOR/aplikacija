@@ -4,6 +4,8 @@ import "./Home.css";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import Cookies from "js-cookie";
+import React from 'react';
+
 
 function Home() {
 	function getToken(name) {
