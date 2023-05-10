@@ -8,7 +8,7 @@ import './tree-style.css';
 const DecisionTree = ({ treeData }) => {
   const containerStyles = {
     width: '100%',
-    height: '300px',
+    height: '400px',
   };
 
   const [selectedNode, setSelectedNode] = useState(null);

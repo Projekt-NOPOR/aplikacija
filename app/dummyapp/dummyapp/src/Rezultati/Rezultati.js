@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import "./button-style.css";
 
+import MyPieChart from './PieChart';
+
 
 import DecisionTree from './DecisionTree';
 
@@ -58,9 +60,9 @@ function Rezultati() {
 					alignItems: 'center', 
 					}}>
 					<div style={{ flexBasis: '50%'}}>
-						<div>
+					<div>
 						<h1> Pie Chart</h1>
-						
+						<MyPieChart treeData={treeData} />
 						</div>
 						
 					</div>
