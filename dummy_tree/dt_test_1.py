@@ -17,16 +17,17 @@ pickle.dump(tree_model, open("dt_1.pickle", "wb"))
 loaded_model = pickle.load(open("dt_1.pickle", "rb"))
 
 # serializacija modela v json format
-tree_model.n_features_ = 999        # ročno dodano, ker drgač ne dela
+tree_model.n_features_ = X.shape[1]     # ročno dodano, ker drgač ne dela
+# print(X.shape)
 skljson.to_json(tree_model, "dt_test_1.json")
 
 # napovedovanje z modelom
 pred_data = np.array([[3, 20, 10, 20]])
-predicted = tree_model.predict(pred_data)
-print(predicted)
+predicted_1 = tree_model.predict(pred_data)
+print(predicted_1)
 
-predicted = loaded_model.predict(pred_data)
-print(predicted)
+predicted_2 = loaded_model.predict(pred_data)
+print(predicted_2)
 
 fig = plt.figure(figsize=(25, 20))
 _ = plot_tree(loaded_model, feature_names=df.columns)

@@ -21,53 +21,58 @@ def index(response):
 
 
 @csrf_exempt
+@api_view(['POST'])
 def get_data(response):
-    if response.method == "POST":
+    if response.method == "POST":  
+        if "file" not in response.FILES:
+            return HttpResponse("File not uploaded")
+        
         # Uploaded file
         uploaded_file = response.FILES["file"]
         print(uploaded_file.name)
 
+        # Save file to database
+        # fileModel = DummyModel(file=uploaded_file)
+        # fileModel.save()
+        return HttpResponse("File uploaded")
+    else:
+        return HttpResponse("not POST method")
+
+'''
+sprejema excel datoteko s podatki, s katerimi moramo narediti napoved
+vrača napoved v json obliki
+'''
+@api_view(['POST'])
+@csrf_exempt
+def make_prediction(request):
+    if request.method == "POST":  
+        if "file" not in request.FILES:
+            return HttpResponse("File not uploaded")
+        
+        # Uploaded file
+        uploaded_file = request.FILES["file"]
+        print(uploaded_file.name)
+        if not uploaded_file.name.endswith(".xlsx"):
+            return HttpResponse("Wrong file type: Excel file expected!!!:(")
 
         df = pd.read_excel(uploaded_file)
-        y_new = df.iloc[:, 0]
+        y_new = df.iloc[:, 0:-1]
+        print("----------------------------------------")
+        print(y_new)
 
-        loaded_model = pickle.load(open("dt_1.pickle", "rb"))
+        loaded_model = pickle.load(open("dummyapp/dt_1.pickle","rb"))
 
         pred_data = np.array(y_new)
         predicted = loaded_model.predict(pred_data)
         predicted_list = predicted.tolist()
+        print("----------------------------------------")
+        print(predicted_list)
 
         json_predicted = json.dumps(predicted_list)
 
         return Response(json_predicted)
-
-        # Save file to database
-        # fileModel = DummyModel(file=uploaded_file)
-        # fileModel.save()
-        # return HttpResponse("File uploaded")
     else:
-        return HttpResponse("File not uploaded")
-
-'''
-sprejema datoteko s podatki, s katerimi moramo narediti napoved
-vrača napoved v json obliki
-ZAENKRAT ŠE NE DELA
-'''
-@api_view(['POST'])
-def make_prediction(request):
-    uploaded_file = request.FILES["file"]
-    df = pd.read_excel(uploaded_file)
-    y_new = df.iloc[:, 0]
-
-    loaded_model = pickle.load(open("./decision_models/dt_1.pickle", "rb"))
-
-    pred_data = np.array(y_new)
-    predicted = loaded_model.predict(pred_data)
-    predicted_list = predicted.tolist()
-
-    json_predicted = json.dumps(predicted_list)
-
-    return Response(json_predicted)
+        return HttpResponse("not POST method")
 
 '''
 vrača dummy drevo v json obliki za potrebe frontenda
