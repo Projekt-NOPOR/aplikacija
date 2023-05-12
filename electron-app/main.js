@@ -1,3 +1,5 @@
+const path = require('path')
+
 const { app, BrowserWindow } = require('electron')
 
 const { PythonShell } = require('python-shell')
@@ -13,17 +15,17 @@ djangoServer.on('message', (message) => {
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
-        height: 600
+        height: 600,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        },
     })
 
     win.loadURL(
         `file://${__dirname}/../app/dummyapp/dummyapp/build/index.html`
     );
 }
-
-app.whenReady().then(() => {
-    createWindow()
-})
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
