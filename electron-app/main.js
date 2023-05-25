@@ -19,10 +19,11 @@ const createWindow = () => {
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
+            webSecurity: false,
         },
     });
 
-    win.loadURL(`file://${__dirname}/../app/dummyapp/dummyapp/build/index.html`);
+    win.loadFile(path.resolve(__dirname, '../app/dummyapp/dummyapp/build/index.html'));
 };
 
 app.on('window-all-closed', () => {
