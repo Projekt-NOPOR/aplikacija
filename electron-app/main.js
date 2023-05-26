@@ -17,12 +17,13 @@ const createWindow = () => {
         width: 800,
         height: 600,
         webPreferences: {
-            nodeIntegration: false,
+            nodeIntegration: true,
             contextIsolation: true,
         },
     });
 
-    win.loadFile(path.resolve(__dirname, '../app/dummyapp/dummyapp/build/index.html'));
+    //win.loadFile(path.resolve(__dirname, '../app/dummyapp/dummyapp/build/index.html'));
+    win.loadURL('http://localhost:8000');
 };
 
 app.on('window-all-closed', () => {
