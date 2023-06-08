@@ -22,7 +22,6 @@ const createWindow = () => {
         },
     });
 
-    //win.loadFile(path.resolve(__dirname, '../app/dummyapp/dummyapp/build/index.html'));
     win.loadURL('http://localhost:8000');
 };
 
