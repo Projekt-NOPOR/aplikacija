@@ -1,15 +1,17 @@
 const path = require('path');
-
 const { app, BrowserWindow, protocol } = require('electron');
+const { spawn } = require('child_process');
 
-const { PythonShell } = require('python-shell');
+const myappExePath = 'C:\\Users\\Andjela\\Desktop\\FRI\\FUN STUFF\\NOPOR\\aplikacija\\app\\dist\\myapp\\myapp.exe';
 
-const djangoServer = new PythonShell('../app/manage.py', {
-    args: ['runserver', '127.0.0.1:8000']
+const djangoServer = spawn(myappExePath, ['runserver', '--noreload', '127.0.0.1:8000']);
+
+djangoServer.stdout.on('data', (data) => {
+    console.log(`Django server: ${data}`);
 });
 
-djangoServer.on('message', (message) => {
-    console.log('Django server:', message);
+djangoServer.stderr.on('data', (data) => {
+    console.error(`Django server error: ${data}`);
 });
 
 const createWindow = () => {
