@@ -4,11 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import "./button-style.css";
-
-import MyPieChart from './PieChart';
-
-
-import DecisionTree from './DecisionTree';
+import data from "../deli.json";
 
 function Rezultati() {
 	const [loading, setLoading] = useState(true);
@@ -20,7 +16,7 @@ function Rezultati() {
 
 	const fetchTreeData = async () => {
 		try {
-			const response = await fetch("http://127.0.0.1:8000/tree");
+			const response = await fetch("http://127.0.0.1:8000/get_data");
 			if (response.ok) {
 				const jsonTreeData = await response.json();
 				setTreeData(jsonTreeData);
@@ -38,68 +34,29 @@ function Rezultati() {
 	const renderOtherComponent = () => {
 		// Render the OtherComponent in another file
 		//TO DO prikaz alternative
-		const otherDiv = document.getElementById('alternative');
+		const otherDiv = document.getElementById("alternative");
 		renderOtherComponent();
-	  };
+	};
 
 	return loading ? (
 		<Loader />
 	) : (
 		<>
-			<div className="App" >
-				<header className="App-header" >
+			<div className="App">
+				<header className="App-header">
 					<h1>Stran Rezultati</h1>
 					<Link to="/">
 						<Button variant="primary">Back</Button>{" "}
 					</Link>
 				</header>
-
-				<div style={{ height: '100%', 
-					display: 'flex', 
-					justifyContent: 'center', 
-					alignItems: 'center', 
-					}}>
-					<div style={{ flexBasis: '50%'}}>
-					<div>
-						<h1> Pie Chart</h1>
-						<MyPieChart treeData={treeData} />
-						</div>
-						
-					</div>
-					<div style={{ flexBasis: '50%' ,
-						backgroundColor: '#dfe8e6',
-						justifyContent: 'center', 
-						alignItems: 'center',}}>
-						{treeData && (
-							<div className="tree-container">
-								<h1>Tree</h1>
-								
-								<div>
-									{ <DecisionTree treeData={treeData} renderOtherComponent={renderOtherComponent} />}
-								</div>
-								{/*<pre>{JSON.stringify(treeData, null, 2)}</pre>*/}
-							</div>
-						)}
+			</div>
+			<div className="container">
+				<div className="row">
+					<div className="col-sm-6">{console.log(data)}</div>
+					<div className="col-sm-6">
+						<canvas></canvas>
 					</div>
 				</div>
-				<div style={{ height: '100%', 
-						display: 'flex', 
-						justifyContent: 'center', 
-						alignItems: 'center', }}>
-					<div style={{ flexBasis: '50%' }}>
-						<div>razlaga</div>
-					</div>
-					<div style={{ flexBasis: '50%',
-						backgroundColor: '#d0eeef'
-						}}>
-						<div id="alternative">
-							<h1>alternative</h1>
-						</div>
-					</div>
-				</div>
-
-
-				
 			</div>
 		</>
 	);
