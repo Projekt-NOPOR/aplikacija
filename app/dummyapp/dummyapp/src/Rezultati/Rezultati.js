@@ -5,13 +5,14 @@ import { Link } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import "./button-style.css";
 import data from "../deli.json";
+import VolumesList from "./volumesList";
 
 function Rezultati() {
 	const [loading, setLoading] = useState(true);
 	const [treeData, setTreeData] = useState(null);
 
 	useEffect(() => {
-		fetchTreeData(); // Fetch the tree data when the component mounts
+		fetchTreeData(); 
 	}, []);
 
 	const fetchTreeData = async () => {
@@ -31,12 +32,7 @@ function Rezultati() {
 		}
 	};
 
-	const renderOtherComponent = () => {
-		// Render the OtherComponent in another file
-		//TO DO prikaz alternative
-		const otherDiv = document.getElementById("alternative");
-		renderOtherComponent();
-	};
+
 
 	return loading ? (
 		<Loader />
@@ -49,12 +45,16 @@ function Rezultati() {
 						<Button variant="primary">Back</Button>{" "}
 					</Link>
 				</header>
+
+			<VolumesList volumes={data.deli} />
+
 			</div>
 			<div className="container">
+
 				<div className="row">
 					<div className="col-sm-6">{console.log(data)}</div>
 					<div className="col-sm-6">
-						<canvas></canvas>
+						
 					</div>
 				</div>
 			</div>
