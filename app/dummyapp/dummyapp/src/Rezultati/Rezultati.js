@@ -6,13 +6,23 @@ import Loader from "../Loader/Loader";
 import "./button-style.css";
 import data from "../deli.json";
 import VolumesList from "./volumesList";
+import ThreeContainer from "../ThreeContainer/ThreeContainer";
+import "./Rezultati.css";
 
 function Rezultati() {
 	const [loading, setLoading] = useState(true);
-	const [treeData, setTreeData] = useState(null);
+
+	var [selectedGltfObject, setSelectedGltfObject] = useState(null);
+	selectedGltfObject = data.deli[2].gltf;
+	console.log(selectedGltfObject);
+
+	function handleGltfObjectChange(gltfObject) {
+		//console.log("handleGltfObjectChange", gltfObject);
+		setSelectedGltfObject(data.deli[gltfObject].gltf);
+	}
 
 	useEffect(() => {
-		fetchTreeData(); 
+		fetchTreeData();
 	}, []);
 
 	const fetchTreeData = async () => {
@@ -20,7 +30,6 @@ function Rezultati() {
 			const response = await fetch("http://127.0.0.1:8000/get_data");
 			if (response.ok) {
 				const jsonTreeData = await response.json();
-				setTreeData(jsonTreeData);
 				setLoading(false);
 			} else {
 				console.error("Failed to fetch tree data");
@@ -32,29 +41,33 @@ function Rezultati() {
 		}
 	};
 
-
-
 	return loading ? (
 		<Loader />
 	) : (
 		<>
 			<div className="App">
-				<header className="App-header">
+				<header className="App-header" id="header">
 					<h1>Stran Rezultati</h1>
 					<Link to="/">
 						<Button variant="primary">Back</Button>{" "}
 					</Link>
 				</header>
-
-			<VolumesList volumes={data.deli} />
-
 			</div>
 			<div className="container">
-
 				<div className="row">
-					<div className="col-sm-6">{console.log(data)}</div>
 					<div className="col-sm-6">
-						
+						<VolumesList
+							volumes={data.deli}
+							click={handleGltfObjectChange}
+							selectedGltfObject={selectedGltfObject}
+						/>
+						{console.log(data)}
+					</div>
+					<div className="col-sm-6">
+						<ThreeContainer
+							key={selectedGltfObject}
+							gltfObject={selectedGltfObject}
+						/>
 					</div>
 				</div>
 			</div>
