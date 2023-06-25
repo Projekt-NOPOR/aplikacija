@@ -13,8 +13,8 @@ function Rezultati() {
 	const [loading, setLoading] = useState(true);
 
 	var [selectedGltfObject, setSelectedGltfObject] = useState(null);
-	selectedGltfObject = data.deli[2].gltf;
-	console.log(selectedGltfObject);
+	selectedGltfObject = data.deli[0].gltf;
+	//console.log(selectedGltfObject);
 
 	function handleGltfObjectChange(gltfObject) {
 		//console.log("handleGltfObjectChange", gltfObject);
@@ -46,7 +46,7 @@ function Rezultati() {
 	) : (
 		<>
 			<div className="App">
-				<header className="App-header" id="header">
+				<header className="Rezultati-header" id="header">
 					<h1>Stran Rezultati</h1>
 					<Link to="/">
 						<Button variant="primary">Back</Button>{" "}
