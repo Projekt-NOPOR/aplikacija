@@ -12,6 +12,7 @@
     "electron": "^24.5.0"
   },
   "dependencies": {
-    "python-shell": "^5.0.0"
+    "python-shell": "^5.0.0",
+    "tar": "^6.1.15"
   }
 }
