@@ -4,7 +4,6 @@ import ThreeContainer from "../ThreeContainer/ThreeContainer";
 
 const VolumesList = ({ volumes, click }) => {
 	const handleItemClick = (gltfObject) => {
-		console.log("Clicked on item", gltfObject);
 		click(gltfObject);
 	};
 

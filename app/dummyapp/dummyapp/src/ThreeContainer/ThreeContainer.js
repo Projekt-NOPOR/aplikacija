@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import model from "../3luknje_h_d.glb";
+import model from "../5_osna_vs_predfino.glb";
 
 const ThreeContainer = ({ gltfObject }) => {
 	const containerRef = useRef(null);
@@ -11,8 +11,19 @@ const ThreeContainer = ({ gltfObject }) => {
 	let rotationX = 0;
 	let rotationY = 0;
 	let mash1 = 0;
+	let object = "../5_osna_vs_predfino.glb";
 
 	useEffect(() => {
+		console.log("gltfObject ThreeContainer", gltfObject);
+
+		if (gltfObject === 0) {
+			object = "../5_osna_vs_predfino.glb";
+		} else if (gltfObject === 1) {
+			object = "../3luknje_h_d.glb";
+		} else {
+			object = "";
+		}
+
 		const container = containerRef.current;
 
 		container.style.width = "100%";
@@ -47,7 +58,8 @@ const ThreeContainer = ({ gltfObject }) => {
 
 		function handleMouseUp() {
 			isDragging = false;
-			mash1.position.copy(scene.position);
+			console.log("mash1", mash1);
+			//mash1.position.copy(scene.position);
 		}
 
 		//scene
@@ -62,8 +74,6 @@ const ThreeContainer = ({ gltfObject }) => {
 		renderer.setSize(container.clientWidth, container.clientHeight);
 		container.appendChild(renderer.domElement);
 
-		//console.log("To je: ", gltfObject);
-
 		const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 		directionalLight.position.set(1, 1, 1);
 		scene.add(directionalLight);
@@ -73,18 +83,10 @@ const ThreeContainer = ({ gltfObject }) => {
 
 		const loader = new GLTFLoader();
 
-		const gltfString = Uint8Array.from(atob(gltfObject), (c) =>
-			c.charCodeAt(0)
-		);
-		//console.log("gltfString", gltfString);
-		const jsonGltfObject = JSON.stringify(gltfString);
-		const gltfJson = JSON.parse(jsonGltfObject);
-		//console.log("gltfJson", gltfObject);
-
-		console.log("model", model);
+		console.log("model", object);
 
 		loader.load(
-			model,
+			object,
 			(gltf) => {
 				const mash = gltf.scene;
 				mash1 = mash;
@@ -103,10 +105,6 @@ const ThreeContainer = ({ gltfObject }) => {
 				function animate() {
 					requestAnimationFrame(animate);
 
-					// Calculate the rotation angles based on mouse movement
-					//	rotationX = mouseY * 0.5;
-					//	rotationY = mouseX * 0.5;
-
 					// Apply the rotation to the object
 					scene.rotation.x = previousMouseY * 0.01;
 					scene.rotation.y = previousMouseX * 0.01;
@@ -115,8 +113,6 @@ const ThreeContainer = ({ gltfObject }) => {
 					renderer.render(scene, camera);
 				}
 				animate();
-
-				//console.log("gltf.scene", mash);
 			},
 			(xhr) => {
 				console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -125,46 +121,12 @@ const ThreeContainer = ({ gltfObject }) => {
 				console.log(error);
 			}
 		);
-		/*
-		loader.parse(
-			gltfJson,
-			"",
-			(gltf) => {
-				const mash = gltf.scene;
-				mash.scale.set(0.07, 0.07, 0.07);
-				mash.position.set(0, -1, 0);
-				mash.rotation.set(-0.8, 0, -0.2);
-				var newMaterial = new THREE.MeshStandardMaterial({
-					color: 0xff0000,
-				});
-				mash.traverse((o) => {
-					if (o.isMesh) o.material = newMaterial;
-				});
-				scene.add(mash);
-				//console.log("gltf.scene", mash);
-			},
-			(xhr) => {
-				//console.log("ta je error: " + xhr);
-				//console.log("xhr", xhr);
-				//console.log("xhr.loaded", xhr.loaded);
-				//console.log("xhr.total", xhr.total);
-				//console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-			},
-			(error) => {
-				console.log(error);
-			}
-		);*/
-
-		//console.log("gltfObject", scene);
 
 		camera.position.z = 5;
-		//console.log("camera.position.z = 5;");
 
 		const animate = function() {
 			requestAnimationFrame(animate);
 
-			//console.log("animate");
-			//console.log(scene);
 			renderer.render(scene, camera);
 		};
 
@@ -173,7 +135,7 @@ const ThreeContainer = ({ gltfObject }) => {
 		return () => {
 			container.removeChild(renderer.domElement);
 		};
-	}, []);
+	}, [gltfObject]);
 
 	return <div ref={containerRef} />;
 };

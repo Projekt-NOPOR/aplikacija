@@ -13,12 +13,9 @@ function Rezultati() {
 	const [loading, setLoading] = useState(true);
 
 	var [selectedGltfObject, setSelectedGltfObject] = useState(null);
-	selectedGltfObject = data.deli[0].gltf;
-	//console.log(selectedGltfObject);
 
 	function handleGltfObjectChange(gltfObject) {
-		//console.log("handleGltfObjectChange", gltfObject);
-		setSelectedGltfObject(data.deli[gltfObject].gltf);
+		setSelectedGltfObject(gltfObject);
 	}
 
 	useEffect(() => {
@@ -61,13 +58,9 @@ function Rezultati() {
 							click={handleGltfObjectChange}
 							selectedGltfObject={selectedGltfObject}
 						/>
-						{console.log(data)}
 					</div>
 					<div className="col-sm-6">
-						<ThreeContainer
-							key={selectedGltfObject}
-							gltfObject={selectedGltfObject}
-						/>
+						<ThreeContainer gltfObject={selectedGltfObject} />
 					</div>
 				</div>
 			</div>
