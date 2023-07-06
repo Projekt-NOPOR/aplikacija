@@ -2,9 +2,9 @@
 	text-align: center;
 }
 
-.App-header {
+.Home-header {
+	height: 30vw;
 	background-color: #282c34;
-	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

@@ -4,10 +4,27 @@ import "./Home.css";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import Cookies from "js-cookie";
-import React from 'react';
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Loader from "../Loader/Loader";
 
 function Home() {
+	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const getProjects = axios
+			.get("http://46.182.227.40:5000/projects/list/")
+			.then((response) => {
+				console.log(response);
+				setData(response.data);
+				setLoading(false);
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}, []);
+
 	function getToken(name) {
 		let cookieValue = null;
 		if (document.cookie && document.cookie !== "") {
@@ -44,9 +61,12 @@ function Home() {
 		);
 		console.log(response.data);
 	}
-	return (
+
+	return loading ? (
+		<Loader />
+	) : (
 		<div className="App">
-			<header className="App-header">
+			<header className="Home-header">
 				<div>
 					<label htmlFor="formFileLg" className="form-label">
 						Naložite excel datoteko
@@ -55,10 +75,10 @@ function Home() {
 						className="form-control form-control-lg"
 						id="formFileLg"
 						type="file"
-						accept=".txt, .csv, .xlsx"
+						accept=".step, .stp"
 					/>
 				</div>
-				<Link to="/rezultati">
+				<Link to="/rezultati/*">
 					<Button
 						className="uploadBtn"
 						variant="primary"
@@ -68,6 +88,15 @@ function Home() {
 					</Button>{" "}
 				</Link>
 			</header>
+			<ul className="list-group">
+				{data.projects.map((item, index) => (
+					<Link to={"/rezultati/" + item}>
+						<li className="list-group-item" key={index}>
+							{item}
+						</li>
+					</Link>
+				))}
+			</ul>
 		</div>
 	);
 }

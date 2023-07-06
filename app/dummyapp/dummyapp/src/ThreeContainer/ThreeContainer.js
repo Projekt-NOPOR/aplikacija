@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import model from "../5_osna_vs_predfino.glb";
+import model from "../3luknje_h_d.glb";
 
 const ThreeContainer = ({ gltfObject }) => {
 	const containerRef = useRef(null);
@@ -14,15 +14,9 @@ const ThreeContainer = ({ gltfObject }) => {
 	let object = "../5_osna_vs_predfino.glb";
 
 	useEffect(() => {
-		console.log("gltfObject ThreeContainer", gltfObject);
+		console.log("gltfObject THREEEE: " + gltfObject);
 
-		if (gltfObject === 0) {
-			object = "../5_osna_vs_predfino.glb";
-		} else if (gltfObject === 1) {
-			object = "../3luknje_h_d.glb";
-		} else {
-			object = "";
-		}
+		object = "http://" + gltfObject;
 
 		const container = containerRef.current;
 
@@ -88,13 +82,14 @@ const ThreeContainer = ({ gltfObject }) => {
 		loader.load(
 			object,
 			(gltf) => {
+				console.log("dela");
 				const mash = gltf.scene;
 				mash1 = mash;
-				mash.scale.set(0.07, 0.07, 0.07);
+				mash.scale.set(0.05, 0.05, 0.05);
 				mash.position.set(0, -1, 0);
 				mash.rotation.set(-0.8, 0, -0.2);
 				var newMaterial = new THREE.MeshStandardMaterial({
-					color: 0xe79548,
+					color: 0xa6a6a6,
 				});
 				mash.traverse((o) => {
 					if (o.isMesh) o.material = newMaterial;
@@ -124,7 +119,7 @@ const ThreeContainer = ({ gltfObject }) => {
 
 		camera.position.z = 5;
 
-		const animate = function() {
+		const animate = function () {
 			requestAnimationFrame(animate);
 
 			renderer.render(scene, camera);

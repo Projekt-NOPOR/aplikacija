@@ -8,36 +8,53 @@ import data from "../deli.json";
 import VolumesList from "./volumesList";
 import ThreeContainer from "../ThreeContainer/ThreeContainer";
 import "./Rezultati.css";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 function Rezultati() {
+	const name = useParams();
+	console.log("Project name: " + name.project_name);
+
 	const [loading, setLoading] = useState(true);
+	const [data2, setData2] = useState();
 
 	var [selectedGltfObject, setSelectedGltfObject] = useState(null);
 
 	function handleGltfObjectChange(gltfObject) {
+		console.log("handleGltfObjectChange" + gltfObject);
 		setSelectedGltfObject(gltfObject);
 	}
 
 	useEffect(() => {
-		fetchTreeData();
-	}, []);
-
-	const fetchTreeData = async () => {
-		try {
-			const response = await fetch("http://127.0.0.1:8000/get_data");
-			if (response.ok) {
-				const jsonTreeData = await response.json();
-				setLoading(false);
-			} else {
-				console.error("Failed to fetch tree data");
-				setLoading(false);
-			}
-		} catch (error) {
-			console.error("Error while fetching tree data:", error);
-			setLoading(false);
+		if (
+			name.project_name === undefined ||
+			name.project_name === null ||
+			name.project_name === "" ||
+			name.project_name === "*"
+		) {
+			name.project_name = "test";
 		}
-	};
-
+		const fetchData = axios
+			.post(
+				"http://46.182.227.40:5000//projects/get_data/",
+				{ project_name: name.project_name },
+				{
+					headers: {
+						"access-control-allow-origin": "*",
+						"Content-Type": "application/json",
+					},
+				}
+			)
+			.then((response) => {
+				setData2(response.data);
+				setSelectedGltfObject(response.data.deli[0].gltf);
+				setLoading(false);
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}, []);
+	console.log(data2);
 	return loading ? (
 		<Loader />
 	) : (
@@ -51,17 +68,13 @@ function Rezultati() {
 				</header>
 			</div>
 			<div className="container">
-				<div className="row">
-					<div className="col-sm-6">
-						<VolumesList
-							volumes={data.deli}
-							click={handleGltfObjectChange}
-							selectedGltfObject={selectedGltfObject}
-						/>
-					</div>
-					<div className="col-sm-6">
-						<ThreeContainer gltfObject={selectedGltfObject} />
-					</div>
+				<VolumesList
+					volumes={data2.deli}
+					click={handleGltfObjectChange}
+					selectedGltfObject={selectedGltfObject}
+				/>
+				<div className="canvas">
+					<ThreeContainer gltfObject={selectedGltfObject} />
 				</div>
 			</div>
 		</>
